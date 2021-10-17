@@ -1,0 +1,118 @@
+<form class="container" [formGroup]="ownerForm" (ngSubmit)="submit()">
+
+  <h1>Владелец авто</h1>
+
+  <mat-form-field
+    class="w-100"
+    appearance="outline">
+    <mat-label>Фамилия</mat-label>
+    <input matInput formControlName="last_name">
+    <div>
+      <small *ngIf="ownerForm.controls.last_name.hasError('required') && ownerForm.controls.last_name.touched">
+        Поле не может быть пустым.
+      </small>
+    </div>
+  </mat-form-field>
+
+
+  <mat-form-field
+    class="w-100"
+    appearance="outline">
+    <mat-label>Имя</mat-label>
+    <input matInput formControlName="first_name">
+    <div>
+      <small *ngIf="ownerForm.controls.first_name.hasError('required') && ownerForm.controls.first_name.touched">
+        Поле не может быть пустым.
+      </small>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field
+    class="w-100"
+    appearance="outline">
+    <mat-label>Отчество</mat-label>
+    <input matInput formControlName="middle_name">
+    <div>
+      <small *ngIf="ownerForm.controls.middle_name.hasError('required') && ownerForm.controls.middle_name.touched">
+        Поле не может быть пустым.
+      </small>
+    </div>
+  </mat-form-field>
+
+<div class="cars-container">
+  <h2>Автомобили</h2>
+  <button class="btn-add-car" mat-stroked-button type="button" color="primary" (click)="addCar()">
+    <mat-icon>add</mat-icon> Добавить автомобиль
+  </button>
+</div>
+
+  <div class="card w-100"
+       formArrayName="cars"
+       *ngFor="let car of cars.controls; let i = index;">
+
+    <div class="car-info" [formGroup]="car | mapFormGroup">
+
+      <mat-form-field
+        class="w-20"
+        appearance="outline">
+        <mat-label>Номерной знак</mat-label>
+        <input matInput type="text" placeholder="AA0000AA" formControlName="num_plate">
+      </mat-form-field>
+
+      <mat-form-field
+        class="w-20"
+        appearance="outline">
+        <mat-label>Производитель</mat-label>
+        <input matInput type="text" formControlName="manufacturer">
+      </mat-form-field>
+
+      <mat-form-field
+        class="w-20"
+        appearance="outline">
+        <mat-label>Модель</mat-label>
+        <input matInput type="text" formControlName="model">
+      </mat-form-field>
+
+      <mat-form-field
+        class="w-20"
+        appearance="outline">
+        <mat-label>Год производства</mat-label>
+        <input matInput type="number" min="1990" [max]="currentYear" formControlName="production_year">
+      </mat-form-field>
+        <button
+          type="button"
+          mat-icon-button
+          (click)="removeCar(i)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+    </div>
+
+    <small
+      *ngIf="
+          (cars | validateFormArrayControl : 'num_plate' :'required' : i)
+          || (cars | validateFormArrayControl : 'manufacturer' :'required' : i)
+          || (cars | validateFormArrayControl : 'model' :'required' : i)
+          || (cars | validateFormArrayControl : 'production_year' :'required' : i)"
+    class="car-error">
+      Поле не может быть пустым.
+    </small>
+    <small
+      *ngIf="cars | validateFormArrayControl : 'num_plate' :'pattern' : i"
+      class="car-error">
+      Строка должна быть в формате 2 большие латинские буквы, 4 цифры, 2 большие латинские буквы (пример AX1111HP).
+    </small>
+
+  </div>
+
+
+
+<div class="form-buttons">
+  <button class="btn" [disabled]="ownerForm.invalid" mat-raised-button color="primary" type="submit">
+    <mat-icon>save</mat-icon> Сохранить
+  </button>
+  <button class="btn" mat-raised-button color="primary" type="submit" [routerLink]="['']">
+    <mat-icon>arrow_back</mat-icon> Назад
+  </button>
+</div>
+
+</form>

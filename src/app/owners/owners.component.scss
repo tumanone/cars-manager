@@ -1,0 +1,21 @@
+.mat-elevation-z8 {
+  margin: 4rem auto 2rem;
+  width: 80%;
+  border-radius: 5px;
+}
+
+.link {
+  &,
+  &:active,
+  &:visited {
+    width: max-content;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+.btn-add {
+  margin: 0 auto;
+  display: block;
+}
